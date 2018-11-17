@@ -1,4 +1,4 @@
-import { DIFFERENT_LENGTH_ERROR, BAD_ARGUMENT_ERROR, TO_OBJECT_ERROR } from './constants';
+import { DIFFERENT_LENGTH_ERROR, BAD_ARGUMENT_ERROR, TO_OBJECT_ERROR, NOT_ENOUGH_ARGUMENTS_ERROR } from './constants';
 
 /**
  * Validates all provided arguments are arrays of the same length.
@@ -7,6 +7,8 @@ import { DIFFERENT_LENGTH_ERROR, BAD_ARGUMENT_ERROR, TO_OBJECT_ERROR } from './c
  */
 const validateArguments = (arrays) => {
     let baseArrayLength;
+
+    if (arrays.length < 2) throw new Error(NOT_ENOUGH_ARGUMENTS_ERROR);
 
     arrays.forEach((array) => {
         if (!Array.isArray(array)) throw new Error(BAD_ARGUMENT_ERROR);

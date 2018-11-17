@@ -1,14 +1,25 @@
 import zip from './index';
-import { DIFFERENT_LENGTH_ERROR, BAD_ARGUMENT_ERROR, TO_OBJECT_ERROR } from './constants';
+import { DIFFERENT_LENGTH_ERROR, BAD_ARGUMENT_ERROR, TO_OBJECT_ERROR, NOT_ENOUGH_ARGUMENTS_ERROR } from './constants';
 
 describe('zip', () => {
     describe('Argument validation', () => {
         it('Throws an error if not all arguments are arrays', () => {
             const badZip = () => {
-                zip(1);
+                zip(
+                    [],
+                    1
+                );
             };
 
             expect(badZip).toThrowError(BAD_ARGUMENT_ERROR);
+        });
+
+        it('Throws an error if not enough arrays are provided', () => {
+            const badZip = () => {
+                zip([]);
+            };
+
+            expect(badZip).toThrowError(NOT_ENOUGH_ARGUMENTS_ERROR);
         });
 
         it('Throws an error if not all arrays are of the same length', () => {
