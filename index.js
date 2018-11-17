@@ -1,6 +1,19 @@
-import { DIFFERENT_LENGTH_ERROR, BAD_ARGUMENT_ERROR } from './constants';
+import {
+    DIFFERENT_LENGTH_ERROR,
+    BAD_ARGUMENT_ERROR,
+    TO_OBJECT_ERROR,
+    NOT_ENOUGH_ARGUMENTS_ERROR,
+    MEMOIZED_OBJECT_KEY
+} from './constants';
 
+/**
+ * Validates all provided arguments are arrays of the same length.
+ * @param {Array[]} arrays
+ * @throws
+ */
 const validateArguments = (arrays) => {
+    if (arrays.length < 2) throw new Error(NOT_ENOUGH_ARGUMENTS_ERROR);
+
     let baseArrayLength;
 
     arrays.forEach((array) => {
@@ -12,11 +25,51 @@ const validateArguments = (arrays) => {
     });
 };
 
+/**
+ * @class Zip
+ * @classdesc A slim extension on the Array prototype.
+ */
+class Zip extends Array {
+    /**
+     * Generates a new object from this instance's arrays, using the first array as keys, and the second one as values.
+     * @return {Object}
+     */
+    toObject() {
+        if (this[MEMOIZED_OBJECT_KEY]) return this[MEMOIZED_OBJECT_KEY];
+
+        if (this[0].length !== 2) throw new Error(TO_OBJECT_ERROR);
+
+        const object = {};
+
+        this.forEach(([key, value]) => object[key] = value);
+
+        this[MEMOIZED_OBJECT_KEY] = object;
+
+        return object;
+    }
+}
+
+/**
+ * Joins provided arrays, basically transposing a 3d matrix, much like Python's zip function.
+ * @param  {Array[]} arrays
+ * @return {Array[]}
+ * @see https://www.programiz.com/python-programming/methods/built-in/zip
+ * @example
+ *
+ * const zipped = zip(
+ *   [1, 2, 3],
+ *   [4, 5, 6],
+ *   [7, 8, 9],
+ *   [10, 11, 12]
+ * );
+ *
+ * console.log(zipped) // [ [1, 4, 7, 10], [2, 5, 8, 11], [3, 6, 9, 12] ]
+ */
 const zip = (...arrays) => {
     validateArguments(arrays);
 
     const length = arrays[0].length;
-    const zippedArray = [];
+    const zippedArray = new Zip();
 
     for (let i = 0; i < length; i++) {
         const zippedItem = [];
