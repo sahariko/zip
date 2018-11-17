@@ -9,3 +9,9 @@ export const DIFFERENT_LENGTH_ERROR = 'Supplied arrays must be of the same lengt
  * @type {String}
  */
 export const BAD_ARGUMENT_ERROR = 'All supplied arguments must be arrays';
+
+/**
+ * The error thrown when trying to convert a zipped object that has more than 2 arrays.
+ * @type {String}
+ */
+export const TO_OBJECT_ERROR = 'Cannot convert zipped object constructed from more than 2 arrays';
