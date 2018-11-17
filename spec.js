@@ -87,5 +87,16 @@ describe('zip', () => {
 
             expect(objectified).toEqual(expected);
         });
+
+        it('Memoizes the result', () => {
+            const zipped = zip(
+                ['a', 'b', 'c', 'd'],
+                [1, 2, 3, 4]
+            );
+            const objectified1 = zipped.toObject();
+            const objectified2 = zipped.toObject();
+
+            expect(objectified1).toBe(objectified2);
+        });
     });
 });

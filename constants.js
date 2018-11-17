@@ -21,3 +21,9 @@ export const NOT_ENOUGH_ARGUMENTS_ERROR = 'Please provide at least 2 arrays';
  * @type {String}
  */
 export const TO_OBJECT_ERROR = 'Cannot convert zipped object constructed from more than 2 arrays';
+
+/**
+ * The memoized toObject key for a specific instance.
+ * @type {Symbol}
+ */
+export const MEMOIZED_OBJECT_KEY = Symbol();

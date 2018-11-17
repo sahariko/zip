@@ -1,4 +1,10 @@
-import { DIFFERENT_LENGTH_ERROR, BAD_ARGUMENT_ERROR, TO_OBJECT_ERROR, NOT_ENOUGH_ARGUMENTS_ERROR } from './constants';
+import {
+    DIFFERENT_LENGTH_ERROR,
+    BAD_ARGUMENT_ERROR,
+    TO_OBJECT_ERROR,
+    NOT_ENOUGH_ARGUMENTS_ERROR,
+    MEMOIZED_OBJECT_KEY
+} from './constants';
 
 /**
  * Validates all provided arguments are arrays of the same length.
@@ -6,9 +12,9 @@ import { DIFFERENT_LENGTH_ERROR, BAD_ARGUMENT_ERROR, TO_OBJECT_ERROR, NOT_ENOUGH
  * @throws
  */
 const validateArguments = (arrays) => {
-    let baseArrayLength;
-
     if (arrays.length < 2) throw new Error(NOT_ENOUGH_ARGUMENTS_ERROR);
+
+    let baseArrayLength;
 
     arrays.forEach((array) => {
         if (!Array.isArray(array)) throw new Error(BAD_ARGUMENT_ERROR);
@@ -29,11 +35,15 @@ class Zip extends Array {
      * @return {Object}
      */
     toObject() {
+        if (this[MEMOIZED_OBJECT_KEY]) return this[MEMOIZED_OBJECT_KEY];
+
         if (this[0].length !== 2) throw new Error(TO_OBJECT_ERROR);
 
         const object = {};
 
         this.forEach(([key, value]) => object[key] = value);
+
+        this[MEMOIZED_OBJECT_KEY] = object;
 
         return object;
     }
